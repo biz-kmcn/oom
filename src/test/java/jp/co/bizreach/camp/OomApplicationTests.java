@@ -2,6 +2,7 @@ package jp.co.bizreach.camp;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -9,8 +10,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringApplicationConfiguration(classes = OomApplication.class)
 public class OomApplicationTests {
 
+	@Autowired
+	private OmiyageOiteokimashitaMail oom;
+
 	@Test
-	public void contextLoads() {
+	public void execute() {
+		oom.execute();
 	}
 
 }

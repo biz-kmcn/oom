@@ -8,7 +8,8 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class OomApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(OomApplication.class, args);
-	}
+//	public static void main(String[] args) {
+//		SpringApplication.run(OomApplication.class, args);
+//	}
+
 }

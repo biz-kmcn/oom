@@ -19,7 +19,6 @@ public class OmiyageOiteokimashitaMail {
 	@Autowired
 	private SendMail sendMail;
 
-	@PostConstruct
 	public void execute() {
 		log.info("Hello World !");
 		File imageFile = cameraImage.getLatestImage();
