@@ -2,6 +2,7 @@ package jp.co.bizreach.camp;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.mail.EmailConstants;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,6 @@ import java.io.File;
 public class SendMail {
 
 	private static final Log log = LogFactory.getLog(SendMail.class);
-	// private ImageHtmlEmail email = new ImageHtmlEmail();
 	private HtmlEmail email = new HtmlEmail();
 	
 	// account setup
@@ -26,9 +26,9 @@ public class SendMail {
 	// email contents
 	private static final String toEmail = "david.genesis.cruz@bizreach.co.jp";
 	private static final String subject = "お土産を置いてきました！";
+	private static final String mailGreeting = "プロダクトマーケのみなさん、";
 	private static final String mailHeader = "お土産を置いてきました！";
-	private static final String mailFooter = "みんなで食べてください！";
-	private static final String imageCid = "Omiyage Image";
+	private static final String mailFooter = "ご自由に食べてください！";
 	
 	/**
 	 *  @param file
@@ -78,6 +78,7 @@ public class SendMail {
 	private void createEmailBody(File file) {
 		String cid = embedImage(file);
 		String mailBody = buildHtmlBody(cid);
+		email.setCharset(EmailConstants.UTF_8);
 		try {
 			email.setHtmlMsg(mailBody);
 		} catch (EmailException e) {
@@ -86,18 +87,45 @@ public class SendMail {
 	}
 
 	private String buildHtmlBody(String cid) {
-		// return "<html>" + mailHeader + "<br><img src=\"cid:" + cid + "\"><br>" + mailFooter + "</html>";
-		return "<html>" + mailHeader + "<br>" + mailFooter + "</html>";
+		String htmlOpenTags = "<html><body>";
+		String htmlCloseTags = "</body></html>";
+		String image = htmlCreateImageUrl("cid:" + cid);
+		String signature = htmlBold(fromName);
+		String htmlBody = htmlOpenTags + mailGreeting + htmlNewLine(3) + mailHeader + htmlNewLine(1) + image + htmlNewLine(1) + mailFooter + htmlNewLine(2) + signature + htmlCloseTags;
+				
+		return htmlBody;
 	}
 
 	private String embedImage(File file) {
 		String cid = new String();
 		try {
 			log.info("attaching file: " + file);
-			cid = email.embed(file, imageCid);
+			cid = email.embed(file);
 		} catch (EmailException e) {
 			log.error("failed to attach image: " + file.getPath(), e);
 		}
 		return cid;
 	}
+	
+	// HTML helpers
+	private String htmlCreateImageUrl(String src) {
+		String imageOpenTag = "<img src=";
+		String imageCloseTag = ">";
+		return imageOpenTag + src + imageCloseTag;
+	}
+	
+	private String htmlBold(String string) {
+		String htmlStrongOpenTag = "<strong>";
+		String htmlStrongCloseTag = "</strong>";
+		return htmlStrongOpenTag + string + htmlStrongCloseTag;
+	}
+	
+	private String htmlNewLine(int count) {
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i <= count; i++) {
+			builder.append("<br>");
+		}
+		return builder.toString();
+	}
+	
 }
