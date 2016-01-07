@@ -3,7 +3,7 @@ package jp.co.bizreach.camp;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.ImageHtmlEmail;
+import org.apache.commons.mail.HtmlEmail;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -12,18 +12,19 @@ import java.io.File;
 public class SendMail {
 
 	private static final Log log = LogFactory.getLog(SendMail.class);
-	private ImageHtmlEmail email = new ImageHtmlEmail();
+	// private ImageHtmlEmail email = new ImageHtmlEmail();
+	private HtmlEmail email = new HtmlEmail();
 	
 	// account setup
 	private static final String hostName = "smtp.gmail.com";
 	private static final int smtpPort = 587;
 	private static final String userName = "luntiang.pentakulo@gmail.com";
-	private static final String password = "temporaryPassword"; // System.getProperty("smtpPasswd");
+	private static final String password = System.getProperty("smtpPasswd");
 	private static final String fromEmail = "luntiang.pentakulo@gmail.com";
 	private static final String fromName = "お土産おじさん";
 	
 	// email contents
-	private static final String toEmail = "david.genesis.bizreach@gmail.com";
+	private static final String toEmail = "david.genesis.cruz@bizreach.co.jp";
 	private static final String subject = "お土産を置いてきました！";
 	private static final String mailHeader = "お土産を置いてきました！";
 	private static final String mailFooter = "みんなで食べてください！";
@@ -41,10 +42,10 @@ public class SendMail {
 			log.info("sending mail...");
 			try {
 				email.send();
+				log.info("mail sent!");
 			} catch (EmailException e) {
 				log.error("failed to send mail: " + email, e);
 			}
-			log.info("mail sent!");
 		} else {
 			log.error("attachment is null.");
 		}
@@ -53,6 +54,8 @@ public class SendMail {
 	private void setupEmailAccount() {
 		email.setHostName(hostName);
 		email.setSmtpPort(smtpPort);
+		email.setSslSmtpPort(String.valueOf(smtpPort));
+		email.setStartTLSEnabled(true);
 		email.setAuthentication(userName, password);
 		email.setSSLOnConnect(true);
 		try {
@@ -83,12 +86,14 @@ public class SendMail {
 	}
 
 	private String buildHtmlBody(String cid) {
-		return "<html>" + mailHeader + "<br><img src=\"cid:" + cid + "\"><br>" + mailFooter + "</html>";
+		// return "<html>" + mailHeader + "<br><img src=\"cid:" + cid + "\"><br>" + mailFooter + "</html>";
+		return "<html>" + mailHeader + "<br>" + mailFooter + "</html>";
 	}
 
 	private String embedImage(File file) {
 		String cid = new String();
 		try {
+			log.info("attaching file: " + file);
 			cid = email.embed(file, imageCid);
 		} catch (EmailException e) {
 			log.error("failed to attach image: " + file.getPath(), e);
