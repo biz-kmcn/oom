@@ -17,3 +17,6 @@ buildNumber.properties
 .project
 .classpath
 bin/
+
+# other
+.DS_Store
