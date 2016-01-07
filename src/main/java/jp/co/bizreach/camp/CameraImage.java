@@ -51,11 +51,12 @@ public class CameraImage {
 	public File findImage(File[] files) {
 		for (File file : files) {
 			//System.out.printf("File: %-20s Last Modified:" + new Date(file.lastModified()) + "\n", file.getName());
-			if (FilenameUtils.getExtension(file.getName()).toLowerCase() == "jpg") {
+			if (FilenameUtils.getExtension(file.getName()).toLowerCase().equals("jpg")) {
+				log.info("file find ! " + file.toString());
 				return file;
 			}
 		}
-		return new File("");
+		return null;
 	}
 
 
