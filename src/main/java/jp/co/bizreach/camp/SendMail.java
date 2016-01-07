@@ -91,7 +91,7 @@ public class SendMail {
 	private static final String subject = "お土産があります！";
 	private static final String mailGreeting = "合宿中のみなさん、";
 	private static final String mailHeader = "お土産を置いてきました！";
-	private static final String mailFooter = "ご自由に食べてください！";
+	private static final String mailFooter = "自由に食べてください！";
 	
 	/**
 	 *  @param file
