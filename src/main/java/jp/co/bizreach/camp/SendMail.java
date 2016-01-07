@@ -8,7 +8,13 @@ import org.apache.commons.mail.HtmlEmail;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
+/**
+ * @author david.genesis.cruz
+ *
+ */
 @Component
 public class SendMail {
 
@@ -25,8 +31,65 @@ public class SendMail {
 	
 	// email contents
 	private static final String toEmail = "david.genesis.cruz@bizreach.co.jp";
-	private static final String subject = "お土産を置いてきました！";
-	private static final String mailGreeting = "プロダクトマーケのみなさん、";
+	private static final List<String> toEmails = Arrays.asList(new String[]{
+		    "ken.toriumi@bizreach.co.jp",
+		    "david.genesis.cruz@bizreach.co.jp",
+		    "kyunbum.yi@bizreach.co.jp",
+		    "akane.sutou@bizreach.co.jp",
+		    "hongseok.jeong@bizreach.co.jp",
+		    "misawa@bizreach.co.jp",
+		    "hayato.nakamura@bizreach.co.jp",
+		    "kota.inoue@bizreach.co.jp",
+		    "even.he@bizreach.co.jp",
+		    "akifumi.tominaga@bizreach.co.jp",
+		    "katsumaru@bizreach.co.jp",
+		    "kazuhiro.yoshimoto@bizreach.co.jp",
+		    "hori@bizreach.co.jp",
+		    "tomoya.masuri@bizreach.co.jp",
+		    "junya.masuda@bizreach.co.jp",
+		    "masayuki.ouchi@bizreach.co.jp",
+		    "yuki.ohnishi@bizreach.co.jp",
+		    "kyota.yasuda@bizreach.co.jp",
+		    "masaki.ogawa@bizreach.co.jp",
+		    "kosuke.obata@bizreach.co.jp",
+		    "tomoki.iwai@bizreach.co.jp",
+		    "kazuya.hirota@bizreach.co.jp",
+		    "daisuke.megumi@bizreach.co.jp",
+		    "sotsuka@bizreach.co.jp",
+		    "aram.park@bizreach.co.jp",
+		    "ayumi.toukairin@bizreach.co.jp",
+		    "koichiro.matsuoka@bizreach.co.jp",
+		    "yuta.yokoo@bizreach.co.jp",
+		    "yuuki.ikehata@bizreach.co.jp",
+		    "kouchi@bizreach.co.jp",
+		    "akira.tsuno@bizreach.co.jp",
+		    "daisuke.sei@bizreach.co.jp",
+		    "yu.watanabe@bizreach.co.jp",
+		    "sawaguchi@bizreach.co.jp",
+		    "mashiko@bizreach.co.jp",
+		    "yuta.ishizaka@bizreach.co.jp",
+		    "shinji.sogawa@bizreach.co.jp",
+		    "yuuta.inoo@bizreach.co.jp",
+		    "takayuki.takemura@bizreach.co.jp",
+		    "satoshi.tanaka@bizreach.co.jp",
+		    "toshiaki.arai@bizreach.co.jp",
+		    "masaki.kamachi@bizreach.co.jp",
+		    "shouta.fujino@bizreach.co.jp",
+		    "junpei.nishina@bizreach.co.jp",
+		    "jumpei.toyoda@bizreach.co.jp",
+		    "tatsuhiro.gunji@bizreach.co.jp",
+		    "mayuko.sakaba@bizreach.co.jp",
+		    "keisuke.shigematsu@bizreach.co.jp",
+		    "suzuki@bizreach.co.jp",
+		    "yuuki.nagahara@bizreach.co.jp",
+		    "yasuhiro.sakamoto@bizreach.co.jp",
+		    "takakura@bizreach.co.jp",
+		    "kohei.takata@bizreach.co.jp",
+		    "shuichiro.washio@bizreach.co.jp",
+		    "hiroki.saito@bizreach.co.jp"
+	});
+	private static final String subject = "お土産があります！";
+	private static final String mailGreeting = "合宿中のみなさん、";
 	private static final String mailHeader = "お土産を置いてきました！";
 	private static final String mailFooter = "ご自由に食べてください！";
 	
@@ -68,6 +131,10 @@ public class SendMail {
 	private void createEmail(File file) {
 		try {
 			email.addTo(toEmail);
+			// 全員に送信
+			//			for (String toEmail : toEmails) {
+			//				email.addTo(toEmail);
+			//			}
 		} catch (EmailException e) {
 			log.error("failed to set TO: " + toEmail, e);
 		}
