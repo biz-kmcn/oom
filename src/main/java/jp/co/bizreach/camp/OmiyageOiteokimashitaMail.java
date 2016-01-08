@@ -7,7 +7,12 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 @Component
 public class OmiyageOiteokimashitaMail {
@@ -27,10 +32,33 @@ public class OmiyageOiteokimashitaMail {
 	public void execute() {
 
 		// FIXME このへんにボタンが押された状態であることを判定する処理を追加
-
+		if (!isSwichOn()) return;
+		
 		sshLogic.countDown();
 		cameraImage.getLatestImage().ifPresent(imageFile -> {
 			sendMail.send(imageFile);
 		});
+	}
+
+	public boolean isSwichOn() {
+		try {
+			File file = new File("/sys/class/gpio/gpio2/value");
+			BufferedReader br = new BufferedReader(new FileReader(file));
+
+			String str = br.readLine();
+			if (str != null) {
+				if (str.equals("1")) {
+					br.close();
+					return true;
+				}
+			}
+			br.close();
+			
+		} catch (FileNotFoundException e) {
+			System.out.println(e);
+		} catch (IOException e) {
+			System.out.println(e);
+		}
+		return false;
 	}
 }
