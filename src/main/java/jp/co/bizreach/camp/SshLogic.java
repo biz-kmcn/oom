@@ -36,7 +36,7 @@ public class SshLogic {
 			// connect session
 			Session session = jsch.getSession(userid, hostname, 22);
 			session.setPassword(password);
-			session.setConfig("StrictHostKeyChecking", "no");
+			// session.setConfig("StrictHostKeyChecking", "no");
 			session.connect();
 			
 			// exec command remotely
