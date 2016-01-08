@@ -34,7 +34,8 @@ public class OmiyageOiteokimashitaMail {
 		// FIXME このへんにボタンが押された状態であることを判定する処理を追加
 		if (!isSwichOn()) return;
 		
-		sshLogic.countDown();
+		// sshでカウントダウン音声やりたかったなーw
+		// sshLogic.countDown();
 		cameraImage.getLatestImage().ifPresent(imageFile -> {
 			sendMail.send(imageFile);
 		});
