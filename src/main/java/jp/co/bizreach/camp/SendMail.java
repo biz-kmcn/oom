@@ -98,8 +98,8 @@ public class SendMail {
 	 *  @param file
 	 */
 	public void send(File file) {
-		log.info("creating email body...");
 		if (file.exists()) {
+			log.info("creating email body...");
 			HtmlEmail email = new HtmlEmail();
 			setupEmailAccount(email);
 			createEmail(file, email);
@@ -111,7 +111,7 @@ public class SendMail {
 				log.error("failed to send mail: " + email, e);
 			}
 		} else {
-			log.error("attachment is null.");
+			log.trace("attachment is null.");
 		}
 	}
 

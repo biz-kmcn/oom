@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 
 @Component
@@ -18,14 +19,10 @@ public class OmiyageOiteokimashitaMail {
 
 	@Autowired
 	private SendMail sendMail;
-	
-	@Autowired
-	private SshLogic sshLogic;
 
 	@Scheduled(fixedDelay = 2000)
 	public void execute() {
 		log.info("Hello World !");
-		sshLogic.countDown();
 		File imageFile = cameraImage.getLatestImage();
 		sendMail.send(imageFile);
 	}

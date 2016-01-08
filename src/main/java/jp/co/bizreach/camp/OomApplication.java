@@ -13,8 +13,6 @@ public class OomApplication {
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext ctx = SpringApplication.run(OomApplication.class, args);
-		OmiyageOiteokimashitaMail oom = ctx.getBean(OmiyageOiteokimashitaMail.class);
-		//oom.execute();
 	}
 
 }
