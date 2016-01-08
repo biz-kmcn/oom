@@ -20,11 +20,17 @@ public class OmiyageOiteokimashitaMail {
 	@Autowired
 	private SendMail sendMail;
 
+	@Autowired
+	private SshLogic sshLogic;
+
 	@Scheduled(fixedDelay = 2000)
 	public void execute() {
-		log.info("Hello World !");
-		File imageFile = cameraImage.getLatestImage();
-		sendMail.send(imageFile);
-	}
 
+		// FIXME このへんにボタンが押された状態であることを判定する処理を追加
+
+		sshLogic.countDown();
+		cameraImage.getLatestImage().ifPresent(imageFile -> {
+			sendMail.send(imageFile);
+		});
+	}
 }
