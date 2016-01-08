@@ -28,7 +28,7 @@ public class OmiyageOiteokimashitaMail {
 	@Autowired
 	private SshLogic sshLogic;
 
-	@Scheduled(fixedDelay = 2000)
+	@Scheduled(fixedDelay = 100)
 	public void execute() {
 
 		// FIXME このへんにボタンが押された状態であることを判定する処理を追加
@@ -55,9 +55,9 @@ public class OmiyageOiteokimashitaMail {
 			br.close();
 			
 		} catch (FileNotFoundException e) {
-			System.out.println(e);
+			log.trace("", e);
 		} catch (IOException e) {
-			System.out.println(e);
+			log.error("", e);
 		}
 		return false;
 	}
