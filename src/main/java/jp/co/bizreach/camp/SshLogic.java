@@ -23,17 +23,14 @@ public class SshLogic {
 	private static final String hostname = "192.168.100.101";
 	private static final String userid   = "david.genesis.cruz";
 	private static final String password = System.getProperty("sshPasswd");
+	private static final String knownhost = "/home/pi/.ssh/known_hosts";
 	
-	@SuppressWarnings("static-access")
 	public void countDown() {
 		JSch jsch = new JSch();
 	
-		// HostKeyチェックを行わない
-		Hashtable <String, String> config = new Hashtable<String, String>();
-		config.put("StrictHostKeyChecking", "no");
-		jsch.setConfig(config);
-	
 		try {
+			jsch.setKnownHosts(knownhost);
+			
 			// connect session
 			Session session = jsch.getSession(userid, hostname, 22);
 			session.setPassword(password);
