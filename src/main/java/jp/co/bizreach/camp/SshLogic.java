@@ -20,14 +20,10 @@ public class SshLogic {
 	
 	private static final Log log = LogFactory.getLog(SshLogic.class);
 
-	private static final String hostname = "192.168.100.104";
-	private static final String userid   = "pi";
-	private static final String password = "raspberry";
-	private static final String knownhost = "/Users/david.genesis.cruz/.ssh/known_hosts";
-//	private static final String hostname = "192.168.100.101";
-//	private static final String userid   = "david.genesis.cruz";
-//	private static final String password = System.getProperty("sshPasswd");
-//	private static final String knownhost = "/home/pi/.ssh/known_hosts";
+	private static final String hostname = "192.168.100.101";
+	private static final String userid   = "david.genesis.cruz";
+	private static final String password = System.getProperty("sshPasswd");
+	private static final String knownhost = "/home/pi/.ssh/known_hosts";
 	
 	public void countDown() {
 		JSch jsch = new JSch();
