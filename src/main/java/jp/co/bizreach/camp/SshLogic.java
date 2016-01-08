@@ -1,7 +1,5 @@
 package jp.co.bizreach.camp;
 
-import java.util.Hashtable;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
