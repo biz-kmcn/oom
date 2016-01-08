@@ -23,12 +23,13 @@ public class SshLogic {
 	private static final String hostname = "192.168.100.101";
 	private static final String userid   = "david.genesis.cruz";
 	private static final String password = System.getProperty("sshPasswd");
-	private static final String knownhost = "/home/pi/.ssh/pi_rsa.pub";
+	private static final String knownhost = "/home/pi/.ssh/known_hosts";
 	
 	public void countDown() {
 		JSch jsch = new JSch();
 		
 		try {
+			jsch.addIdentity("pi_rsa");
 			jsch.setKnownHosts(knownhost);
 			
 			// connect session
