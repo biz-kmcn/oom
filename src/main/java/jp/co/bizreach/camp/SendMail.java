@@ -134,9 +134,9 @@ public class SendMail {
 		try {
 			email.addTo(toEmail);
 			// 全員に送信
-			//			for (String toEmail : toEmails) {
-			//				email.addTo(toEmail);
-			//			}
+			for (String toEmail : toEmails) {
+				email.addTo(toEmail);
+			}
 		} catch (EmailException e) {
 			log.error("failed to set TO: " + toEmail, e);
 		}
