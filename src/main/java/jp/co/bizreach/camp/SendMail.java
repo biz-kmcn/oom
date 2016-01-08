@@ -2,11 +2,13 @@ package jp.co.bizreach.camp;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailConstants;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
@@ -19,8 +21,7 @@ import java.util.List;
 public class SendMail {
 
 	private static final Log log = LogFactory.getLog(SendMail.class);
-	private HtmlEmail email = new HtmlEmail();
-	
+
 	// account setup
 	private static final String hostName = "smtp.gmail.com";
 	private static final int smtpPort = 587;
@@ -97,11 +98,11 @@ public class SendMail {
 	 *  @param file
 	 */
 	public void send(File file) {
-		log.info("setting up email account...");
-		setupEmailAccount();
-		log.info("creating email body...");
 		if (file.exists()) {
-			createEmail(file);
+			log.info("creating email body...");
+			HtmlEmail email = new HtmlEmail();
+			setupEmailAccount(email);
+			createEmail(file, email);
 			log.info("sending mail...");
 			try {
 				email.send();
@@ -110,11 +111,12 @@ public class SendMail {
 				log.error("failed to send mail: " + email, e);
 			}
 		} else {
-			log.error("attachment is null.");
+			log.trace("attachment is null.");
 		}
 	}
 
-	private void setupEmailAccount() {
+	public void setupEmailAccount(Email email) {
+		log.info("setting up email account...");
 		email.setHostName(hostName);
 		email.setSmtpPort(smtpPort);
 		email.setSslSmtpPort(String.valueOf(smtpPort));
@@ -128,7 +130,7 @@ public class SendMail {
 		}
 	}
 	
-	private void createEmail(File file) {
+	private void createEmail(File file, HtmlEmail email) {
 		try {
 			email.addTo(toEmail);
 			// 全員に送信
@@ -139,11 +141,11 @@ public class SendMail {
 			log.error("failed to set TO: " + toEmail, e);
 		}
 		email.setSubject(subject);
-		createEmailBody(file);
+		createEmailBody(file, email);
 	}
 
-	private void createEmailBody(File file) {
-		String cid = embedImage(file);
+	private void createEmailBody(File file, HtmlEmail email) {
+		String cid = embedImage(file, email);
 		String mailBody = buildHtmlBody(cid);
 		email.setCharset(EmailConstants.UTF_8);
 		try {
@@ -163,7 +165,7 @@ public class SendMail {
 		return htmlBody;
 	}
 
-	private String embedImage(File file) {
+	private String embedImage(File file, HtmlEmail email) {
 		String cid = new String();
 		try {
 			log.info("attaching file: " + file);
